@@ -1,0 +1,45 @@
+query Media($id: Int!) {
+    Media (id: $id) {
+        id
+        title {
+            romaji
+        }
+        coverImage {
+            large
+            color
+        }
+        episodes
+        description
+        bannerImage
+        duration
+        genres
+        averageScore
+        favourites
+        characters {
+            edges {
+                id
+                role
+                voiceActors(language: JAPANESE) {
+                    id
+                    name {
+                        full
+                    }
+                    image {
+                        large
+                    }
+                    languageV2
+                }
+                node {
+                    id
+                    name {
+                        full
+                    }
+                    image {
+                        large
+                    }
+
+                }
+            }
+        }
+    }
+}

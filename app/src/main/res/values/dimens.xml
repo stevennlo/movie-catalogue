@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_corner_radius">20dp</dimen>
+    <dimen name="image_stroke_width">3dp</dimen>
+    <dimen name="rounded_layout_radius">24dp</dimen>
+    <dimen name="elevation_level_1">4dp</dimen>
+    <dimen name="chip_stroke_width">1dp</dimen>
+    <dimen name="character_list_height">400dp</dimen>
+</resources>

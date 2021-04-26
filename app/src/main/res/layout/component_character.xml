@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/character_image_iv"
+            android:layout_width="65dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/character_image"
+            android:minHeight="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_default_person" />
+
+        <TextView
+            android:id="@+id/character_name_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/default_string_text"
+            android:textColor="?colorOnSurface"
+            app:layout_constraintEnd_toStartOf="@id/character_center_guideline"
+            app:layout_constraintStart_toEndOf="@id/character_image_iv"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Character Name" />
+
+        <TextView
+            android:id="@+id/character_role_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/default_string_text"
+            android:textColor="?attr/secondaryColorOnSurface"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/character_center_guideline"
+            app:layout_constraintStart_toEndOf="@id/character_image_iv"
+            tools:text="Role" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/character_center_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <ImageView
+            android:id="@+id/character_actor_image_iv"
+            android:layout_width="65dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/character_image"
+            android:minHeight="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_default_person" />
+
+        <TextView
+            android:id="@+id/character_actor_name_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/default_string_text"
+            android:textAlignment="textEnd"
+            android:textColor="?colorOnSurface"
+            app:layout_constraintEnd_toStartOf="@id/character_actor_image_iv"
+            app:layout_constraintStart_toEndOf="@id/character_center_guideline"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="actor Name" />
+
+        <TextView
+            android:id="@+id/character_actor_language_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/default_string_text"
+            android:textAlignment="textEnd"
+            android:textColor="?attr/secondaryColorOnSurface"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/character_actor_image_iv"
+            app:layout_constraintStart_toEndOf="@id/character_center_guideline"
+            tools:text="Japanese" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
