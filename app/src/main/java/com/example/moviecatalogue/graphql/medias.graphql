@@ -1,0 +1,13 @@
+query Medias($season: MediaSeason!, $seasonYear: Int!, $format: MediaFormat!) {
+    Page {
+        media (season: $season, seasonYear: $seasonYear, type: ANIME, isAdult: false, format: $format) {
+            id
+            title {
+                romaji
+            }
+            coverImage {
+                large
+            }
+        }
+    }
+}
