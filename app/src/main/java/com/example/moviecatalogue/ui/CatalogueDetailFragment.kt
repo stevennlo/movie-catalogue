@@ -12,8 +12,6 @@ import com.example.moviecatalogue.R
 import com.example.moviecatalogue.adapter.CharacterAdapter
 import com.example.moviecatalogue.databinding.FragmentCatalogueDetailBinding
 import com.example.moviecatalogue.graphql.MediaQuery
-import com.example.moviecatalogue.repository.MediaRepository
-import com.example.moviecatalogue.service.Status
 import com.example.moviecatalogue.util.HtmlUtil
 import com.example.moviecatalogue.util.ImageUtil.getDefaultItemDecoration
 import com.example.moviecatalogue.util.ImageUtil.getEmoResourceId
@@ -22,17 +20,14 @@ import com.example.moviecatalogue.util.MessageType
 import com.example.moviecatalogue.util.getColorFromAttr
 import com.example.moviecatalogue.util.getOrDefault
 import com.example.moviecatalogue.viewmodel.CatalogueDetailViewModel
-import com.example.moviecatalogue.viewmodel.CatalogueViewModel
-import com.example.moviecatalogue.viewmodel.ViewModelFactory
+import com.example.moviecatalogue.wrapper.Status
 import com.google.android.material.chip.Chip
+import dagger.hilt.android.AndroidEntryPoint
 
-class CatalogueDetailFragment(viewModel: CatalogueViewModel? = null) :
+@AndroidEntryPoint
+class CatalogueDetailFragment :
     BaseFragment<FragmentCatalogueDetailBinding>(FragmentCatalogueDetailBinding::inflate) {
-    private val viewModel: CatalogueDetailViewModel by viewModels(factoryProducer = {
-        ViewModelFactory {
-            viewModel ?: CatalogueDetailViewModel(MediaRepository())
-        }
-    })
+    private val viewModel: CatalogueDetailViewModel by viewModels()
     private val args: CatalogueDetailFragmentArgs by this.navArgs()
     private var mediaId: Int = 0
     private val characterAdapter = CharacterAdapter()

@@ -8,12 +8,13 @@ import com.example.moviecatalogue.graphql.type.MediaSeason
 import java.util.*
 
 object DummyData {
+    const val BASE_TEST_PORT = 9090
     fun getYear() = 2020
     fun getSeason() = MediaSeason.SPRING
     fun getFormat() = MediaFormat.TV
     fun getMediaId() = 110733
     fun getCalendar(): Calendar = Calendar.getInstance().apply {
-        set(2021, 3, 10)
+        set(2021, 0, 10)
     }
 
     fun getMediasBody() =

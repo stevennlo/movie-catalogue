@@ -1,5 +1,8 @@
 package com.example.moviecatalogue.repository
 
+import androidx.test.espresso.IdlingRegistry
+import com.apollographql.apollo.ApolloClient
+import com.example.moviecatalogue.data.DummyData.BASE_TEST_PORT
 import com.example.moviecatalogue.data.DummyData.getFormat
 import com.example.moviecatalogue.data.DummyData.getMediaBody
 import com.example.moviecatalogue.data.DummyData.getMediaId
@@ -7,9 +10,8 @@ import com.example.moviecatalogue.data.DummyData.getMediasBody
 import com.example.moviecatalogue.data.DummyData.getSeason
 import com.example.moviecatalogue.data.DummyData.getYear
 import com.example.moviecatalogue.graphql.type.MediaSeason.*
-import com.example.moviecatalogue.service.Status
-import com.example.moviecatalogue.util.BASE_ANILIST_URL
-import com.example.moviecatalogue.util.BASE_TEST_PORT
+import com.example.moviecatalogue.util.EspressoUtil
+import com.example.moviecatalogue.wrapper.Status
 import io.mockk.unmockkAll
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
@@ -27,14 +29,18 @@ class MediaRepositoryTest {
     @Before
     fun setUp() {
         mockWebServer.start(BASE_TEST_PORT)
-        BASE_ANILIST_URL = mockWebServer.url("/").toString()
-        mediaRepository = MediaRepository()
+        val apiService = ApolloClient.builder()
+            .serverUrl(mockWebServer.url("/"))
+            .build()
+        mediaRepository = MediaRepositoryImpl(apiService)
+        IdlingRegistry.getInstance().register(EspressoUtil.idlingResource)
     }
 
     @After
     fun tearDown() {
         unmockkAll()
         mockWebServer.shutdown()
+        IdlingRegistry.getInstance().unregister(EspressoUtil.idlingResource)
     }
 
     @Test

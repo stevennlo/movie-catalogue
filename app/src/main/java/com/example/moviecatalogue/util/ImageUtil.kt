@@ -35,7 +35,7 @@ object ImageUtil {
                     context.resources,
                     R.drawable.drawable_space_item_decoration,
                     null
-                )!!
+                ) as Drawable
             )
         }
     }
