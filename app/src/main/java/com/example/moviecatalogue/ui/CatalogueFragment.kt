@@ -6,7 +6,9 @@ import com.example.moviecatalogue.adapter.CataloguePagerAdapter
 import com.example.moviecatalogue.databinding.FragmentCatalogueBinding
 import com.example.moviecatalogue.util.MessageType
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CatalogueFragment :
     BaseFragment<FragmentCatalogueBinding>(FragmentCatalogueBinding::inflate) {
     override fun runOnCreateView() {

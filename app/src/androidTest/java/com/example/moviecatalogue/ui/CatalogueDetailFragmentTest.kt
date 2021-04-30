@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.action.ViewActions.swipeUp
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -13,39 +14,46 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.example.moviecatalogue.R
 import com.example.moviecatalogue.adapter.CharacterAdapter
+import com.example.moviecatalogue.data.DummyData.BASE_TEST_PORT
 import com.example.moviecatalogue.data.DummyData.getMedia
 import com.example.moviecatalogue.data.DummyData.getMediaBody
 import com.example.moviecatalogue.data.DummyData.getMediaId
+import com.example.moviecatalogue.di.module.BaseUrlModule
 import com.example.moviecatalogue.util.*
 import com.example.moviecatalogue.util.MatcherUtil.atPosition
 import com.example.moviecatalogue.util.MatcherUtil.withCompoundDrawableEnd
 import com.example.moviecatalogue.util.MatcherUtil.withDrawable
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.Matchers.not
-import org.junit.After
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
+import org.junit.*
 import org.junit.runner.RunWith
 import java.net.HttpURLConnection.HTTP_BAD_REQUEST
 import java.net.HttpURLConnection.HTTP_OK
 
 @RunWith(AndroidJUnit4ClassRunner::class)
+@HiltAndroidTest
+@UninstallModules(BaseUrlModule::class)
 class CatalogueDetailFragmentTest {
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
     private val mockWebServer = MockWebServer()
     private var scenario: ActivityScenario<MainActivity>? = null
 
     @Before
     fun setUp() {
         mockWebServer.start(BASE_TEST_PORT)
-        BASE_ANILIST_URL = mockWebServer.url("/").toString()
+        IdlingRegistry.getInstance().register(EspressoUtil.idlingResource)
     }
 
     @After
     fun tearDown() {
         mockWebServer.shutdown()
         scenario?.close()
+        IdlingRegistry.getInstance().unregister(EspressoUtil.idlingResource)
     }
 
     @Test
@@ -63,7 +71,6 @@ class CatalogueDetailFragmentTest {
         }
         Assert.assertEquals(R.id.catalogueDetailFragment, navController?.currentDestination?.id)
         mockWebServer.enqueue(MockResponse().setResponseCode(HTTP_BAD_REQUEST))
-        Thread.sleep(2000)
         onView(withId(R.id.message_root_ll)).check(matches(isCompletelyDisplayed()))
         onView(withId(R.id.main_message_image_iv))
             .check(matches(withDrawable(R.drawable.ic_something_wrong)))
@@ -73,7 +80,6 @@ class CatalogueDetailFragmentTest {
             .setBody(getMediaBody()))
         onView(withId(R.id.catalogue_detail_refresh_srl)).perform(ActionUtil.withCustomConstraints(
             swipeDown(), isDisplayingAtLeast(85)))
-        Thread.sleep(2000)
         onView(withId(R.id.message_root_ll)).check(matches(not(isCompletelyDisplayed())))
         onView(withId(R.id.catalogue_detail_banner_siv))
             .check(matches(not(withDrawable(R.drawable.ic_default_movie))))

@@ -14,7 +14,6 @@ import org.junit.Test
 import java.util.*
 
 class CalendarUtilTest {
-
     @Before
     fun setUp() {
         mockkObject(MediaRepository)
@@ -28,9 +27,9 @@ class CalendarUtilTest {
     }
 
     @Test
-    fun testGetCurrentSeason() {
+    fun testGetNextSeason() {
         val calendarUtil = CalendarUtil(getCalendar())
-        assertEquals(getSeason(), calendarUtil.getCurrentSeason())
+        assertEquals(getSeason(), calendarUtil.getNextSeason())
     }
 
     @After

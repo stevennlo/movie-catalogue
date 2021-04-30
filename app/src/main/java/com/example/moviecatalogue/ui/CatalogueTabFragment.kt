@@ -9,19 +9,15 @@ import com.example.moviecatalogue.R
 import com.example.moviecatalogue.adapter.CatalogueAdapter
 import com.example.moviecatalogue.databinding.FragmentCatalogueTabBinding
 import com.example.moviecatalogue.graphql.type.MediaFormat
-import com.example.moviecatalogue.repository.MediaRepository
-import com.example.moviecatalogue.service.Status
 import com.example.moviecatalogue.util.MessageType
 import com.example.moviecatalogue.viewmodel.CatalogueViewModel
-import com.example.moviecatalogue.viewmodel.ViewModelFactory
+import com.example.moviecatalogue.wrapper.Status
+import dagger.hilt.android.AndroidEntryPoint
 
-class CatalogueTabFragment(private val format: MediaFormat, viewModel: CatalogueViewModel? = null) :
+@AndroidEntryPoint
+class CatalogueTabFragment(private val format: MediaFormat) :
     BaseFragment<FragmentCatalogueTabBinding>(FragmentCatalogueTabBinding::inflate) {
-    private val viewModel: CatalogueViewModel by viewModels(factoryProducer = {
-        ViewModelFactory {
-            viewModel ?: CatalogueViewModel(MediaRepository())
-        }
-    })
+    private val viewModel: CatalogueViewModel by viewModels()
     private val catalogueAdapter by lazy {
         CatalogueAdapter(this::navigateToDetail)
     }

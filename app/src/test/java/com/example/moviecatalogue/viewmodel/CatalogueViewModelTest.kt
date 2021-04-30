@@ -1,17 +1,17 @@
 package com.example.moviecatalogue.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import com.example.moviecatalogue.data.DummyData.getCalendar
 import com.example.moviecatalogue.data.DummyData.getMedias
+import com.example.moviecatalogue.graphql.MediasQuery
 import com.example.moviecatalogue.graphql.type.MediaFormat
 import com.example.moviecatalogue.graphql.type.MediaSeason
-import com.example.moviecatalogue.repository.MediaRepository
-import com.example.moviecatalogue.service.Status
+import com.example.moviecatalogue.repository.MediaRepositoryImpl
 import com.example.moviecatalogue.util.CalendarUtil
-import com.example.moviecatalogue.util.getOrAwaitValue
+import com.example.moviecatalogue.wrapper.Status
 import io.mockk.*
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,12 +21,13 @@ class CatalogueViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    private val repository = mockk<MediaRepository>()
+    private val repository = mockk<MediaRepositoryImpl>()
     private val viewModel = CatalogueViewModel(repository, CalendarUtil(getCalendar()))
     private val dummyYear = 2020
     private val dummySeason = MediaSeason.SPRING
     private val dummyFormat = MediaFormat.TV
     private val dummyStatus = Status.success(getMedias())
+    private val observer = spyk<Observer<Status<List<MediasQuery.Medium>>>>()
 
     @Before
     fun setUp() {
@@ -46,7 +47,10 @@ class CatalogueViewModelTest {
 
     @Test
     fun testGetCatalogue() {
+        viewModel.medias.observeForever(observer)
         viewModel.getCatalogue(dummyFormat)
-        assertEquals(dummyStatus, viewModel.medias.getOrAwaitValue())
+        verify {
+            observer.onChanged(dummyStatus)
+        }
     }
 }
